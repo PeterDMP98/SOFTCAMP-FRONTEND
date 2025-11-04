@@ -1,0 +1,92 @@
+########################################
+# ARCHIVOS GENERALES
+########################################
+.DS_Store
+Thumbs.db
+*.log
+logs/
+*.tmp
+*.temp
+*.bak
+*.swp
+
+########################################
+# NODE Y DEPENDENCIAS
+########################################
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+package-lock.json
+yarn.lock
+
+########################################
+# BUILD Y DISTRIBUCIÓN
+########################################
+dist/
+dist-ssr/
+build/
+coverage/
+public/build/
+*.local
+
+########################################
+# AMBIENTE Y CONFIGURACIONES SENSIBLES
+########################################
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+########################################
+# ARCHIVOS DE EDITORES Y SISTEMAS
+########################################
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+########################################
+# SISTEMA OPERATIVO
+########################################
+# macOS
+._*
+.AppleDouble
+.Spotlight-V100
+.Trashes
+
+# Windows
+ehthumbs.db
+Desktop.ini
+
+########################################
+# BACKEND (Node/Express)
+########################################
+/backend/node_modules/
+/backend/logs/
+/backend/uploads/
+/backend/tmp/
+/backend/.env
+
+########################################
+# FRONTEND (React)
+########################################
+/frontend/node_modules/
+/frontend/build/
+/frontend/dist/
+/frontend/.env
+
+########################################
+# BASE DE DATOS Y TEMPORALES
+########################################
+*.sqlite
+*.db
+*.db-journal
+dump.sql
+*.sql
