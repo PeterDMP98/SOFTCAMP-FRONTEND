@@ -27,8 +27,9 @@ function Login() {
         setErrorMsg(data.message || "Credenciales incorrectas");
         return;
       }
-
+      
       if (!data.user || !data.token) {
+        
         setErrorMsg("Respuesta inválida del servidor");
         return;
       }
@@ -43,7 +44,7 @@ function Login() {
         navigate("/campesino");
       }
       else if (grupo === "comprador") {
-        navigate("/comprador/dashboard");
+        navigate("/comprador");
       }
       else {
         setErrorMsg("Grupo de usuario no válido");

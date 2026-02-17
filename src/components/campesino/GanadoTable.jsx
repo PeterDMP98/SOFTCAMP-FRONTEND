@@ -1,6 +1,7 @@
 // src/components/GanadoTable.jsx
 import { Pencil, Trash2 } from "lucide-react";
 import { Plus } from "lucide-react";
+import EstadoSaludBadge from "../common/EstadoSaludBadge";
 
 
 const GanadoTable = ({
@@ -16,6 +17,15 @@ const GanadoTable = ({
   if (!ganadoList.length) {
     return (
       <div className="bg-white shadow-md rounded-2xl p-6 text-center text-gray-600">
+        {/* Botón agregar flotante */}
+        <div className="flex justify-end mb-2">
+          <button
+            onClick={onAdd}
+            className="bg-green-600 hover:bg-green-700 text-white px-8 py-2 rounded-lg shadow transition flex items-center gap-2">       <Plus size={18} />
+            Agregar
+          </button>
+        </div>
+
         No hay registros de ganado aún.
       </div>
     );
@@ -67,7 +77,7 @@ const GanadoTable = ({
               <td className="p-2">{g.sexo}</td>
               <td className="p-2">{g.raza}</td>
               <td className="p-2">{g.peso_actual}</td>
-              <td className="p-2">{g.estado_salud}</td>
+              <td className="p-2"><EstadoSaludBadge estado={g.estado_salud} /></td>
 
               <td className="p-2 flex gap-3">
                 <Pencil

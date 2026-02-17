@@ -1,56 +1,51 @@
-import { Link } from "react-router-dom";
-import { Beef, LogOut } from "lucide-react";
+import { useState } from "react";
+import { Menu, X, LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
-function Sidebar({ role }) {
-  const menu = {
-    campesino: [
-      { name: "Ganado", to: "/campesino/ganado", icon: <Beef size={20} /> },
-    ],
-    comprador: [
-      { name: "Ganado", to: "/comprador/ganado", icon: <Beef size={20} /> },
-    ],
+function Sidebar({ children }) {
+  const [open, setOpen] = useState(true);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login", { replace: true });
   };
 
   return (
-    <aside className="
-      w-64 h-screen bg-[#f0f8f4]
-      shadow-[9px_9px_16px_#b8b9be,_-9px_-9px_16px_#ffffff]
-      p-6 flex flex-col
-    ">
-      <h2 className="text-green-700 text-xl font-semibold mb-6">
-        SOFTCAMP
-      </h2>
+    <aside
+      className={`
+        ${open ? "w-64" : "w-20"}
+        bg-[#f0f8f4]
+        shadow-[9px_9px_16px_#b8b9be,_-9px_-9px_16px_#ffffff]
+        transition-all duration-300
+        p-4 flex flex-col
+      `}
+    >
+      {/* Toggle */}
+      <button
+        onClick={() => setOpen(!open)}
+        className="mb-8 ml-2 p-0.5 flex w-min items-center gap-2 text-green-600"
+      >
+        {open ? <X size={26} /> : <Menu size={26} />}
+      </button>
 
-      <nav className="flex flex-col gap-3">
-        {menu[role]?.map((item) => (
-          <Link
-            key={item.name}
-            to={item.to}
-            className="
-              flex items-center gap-3 bg-[#e0e5ec] 
-              shadow-inner p-3 rounded-lg
-              hover:bg-[#e8f5e9] transition
-            "
-          >
-            {item.icon}
-            <span className="text-gray-700">{item.name}</span>
-          </Link>
-        ))}
+      {/* Menú */}
+      <nav className="flex flex-col gap-4 ">
+        {typeof children === "function"
+          ? children(open)
+          : children}
       </nav>
 
       {/* Logout */}
-      <div className="mt-auto">
-        <Link
-          to="/login"
-          className="
-            flex items-center gap-3 p-3 rounded-lg 
-            text-red-600 hover:bg-red-100
-          "
-        >
-          <LogOut size={20} />
-          Cerrar sesión
-        </Link>
-      </div>
+      <button
+        onClick={handleLogout}
+        className="mt-auto flex items-center gap-3 p-3 text-red-600 hover:bg-red-100 rounded-xl"
+      >
+        <LogOut size={22} />
+        {open && <span>Cerrar sesión</span>}
+      </button>
     </aside>
   );
 }

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Sun } from "lucide-react";
 import { useNavigate, Navigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import CampesinoLayout from "../../layouts/CampesinoLayout";
 import { Beef, Sprout, Package, ClipboardList } from "lucide-react";
 
 function CampesinoDashboard() {
@@ -38,7 +37,6 @@ function CampesinoDashboard() {
   };
 
   return (
-    <CampesinoLayout>
       <div className="space-y-6">
 
         {/* SALUDO */}
@@ -113,7 +111,6 @@ function CampesinoDashboard() {
 
 
       </div>
-    </CampesinoLayout>
   );
 }
 

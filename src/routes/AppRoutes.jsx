@@ -1,51 +1,55 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import AppLayout from "../layouts/AppLayout";
 
-// ✅ Páginas públicas
+/* PAGINAS PUBLICAS */
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 
-// ✅ Dashboards por rol
-import CampesinoDashboard from "../pages/campesino/CampesinoDashboard";
-import CompradorDashboard from "../pages/comprador/CompradorDashboard";
+/* RUTA PROTEGIDA CENTRAL */
+import ProtectedRoute from "./ProtectedRoute";
+import PublicRoute from "./PublicRoute";
 
-// ✅ Módulo de ganado (solo campesino)
+
+/* PROTEGIDAS POR ROL*/
+
+// ✅ Dashboards por rol
+
+// Campesino
+import CampesinoDashboard from "../pages/campesino/CampesinoDashboard";
 import CampesinoGanado from "../pages/campesino/CampesinoGanado";
 
-// ✅ Ruta protegida centralizada
-import ProtectedRoute from "./ProtectedRoute";
+// Comprador
+import CompradorDashboard from "../pages/comprador/CompradorDashboard";
+
+/* - CONFIGURACION - */
 
 function AppRoutes() {
   return (
     <Routes>
 
-      {/* RUTAS PUBLICAS */}
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      {/* Públicas */}
 
-      {/* RUTAS CAMPESINO */}
-      <Route path="/campesino" element={
-        <ProtectedRoute allowedGroups={["campesino"]}>
-          <CampesinoDashboard />
-        </ProtectedRoute>
-      } />
-
-      <Route path="/campesino/ganado" element={
-        <ProtectedRoute allowedGroups={["campesino"]}>
-          <CampesinoGanado />
-        </ProtectedRoute>
-      } />
-
-      <Route path="/comprador/dashboard" element={
-        <ProtectedRoute allowedGroups={["comprador"]}>
-          <CompradorDashboard />
-        </ProtectedRoute>
-      } />
+      <Route element={<PublicRoute />}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Route>
 
 
-      {/* REDIRECCIÓN ROOT */}
+      {/* Protegidas */}
+      <Route
+        element={
+          <ProtectedRoute allowedGroups={["campesino", "comprador"]}>
+            <AppLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="/campesino" element={<CampesinoDashboard />} />
+        <Route path="/campesino/ganado" element={<CampesinoGanado />} />
+
+        <Route path="/comprador" element={<CompradorDashboard />} />
+      </Route>
+
       <Route path="/" element={<Navigate to="/login" replace />} />
-
-      {/* CUALQUIER OTRA RUTA */}
       <Route path="*" element={<Navigate to="/login" replace />} />
 
     </Routes>

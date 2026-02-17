@@ -60,6 +60,10 @@ function Register() {
             onChange={(e) => setCorreo(e.target.value)}
             className="bg-[#e0e5ec] rounded-lg shadow-inner p-2 text-gray-700" />
 
+          <input type="password" placeholder="Contraseña" value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="bg-[#e0e5ec] rounded-lg shadow-inner p-2 text-gray-700" />
+          
           <input type="text" placeholder="Teléfono" value={telefono}
             onChange={(e) => setTelefono(e.target.value)}
             className="bg-[#e0e5ec] rounded-lg shadow-inner p-2 text-gray-700" />
@@ -68,9 +72,6 @@ function Register() {
             onChange={(e) => setDireccion(e.target.value)}
             className="bg-[#e0e5ec] rounded-lg shadow-inner p-2 text-gray-700" />
 
-          <input type="password" placeholder="Contraseña" value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="bg-[#e0e5ec] rounded-lg shadow-inner p-2 text-gray-700" />
 
           <select value={grupo} onChange={(e) => setGrupo(Number(e.target.value))}>
             <option value={1}>Campesino</option>

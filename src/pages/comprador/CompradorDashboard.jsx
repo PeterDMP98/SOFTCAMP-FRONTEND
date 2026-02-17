@@ -11,6 +11,8 @@ function CompradorDashboard() {
   }
 
   return (
+    <div>
+
     <div className="min-h-screen bg-[#f0f8f4] p-10">
       <div className="max-w-3xl mx-auto space-y-6">
 
@@ -43,7 +45,9 @@ function CompradorDashboard() {
         </div>
       </div>
     </div>
-  );
+
+    </div>
+    );
 }
 
 export default CompradorDashboard;
