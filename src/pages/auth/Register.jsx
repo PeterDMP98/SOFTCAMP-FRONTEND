@@ -30,7 +30,7 @@ function Register() {
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.error || "Error al registrar usuario");
+        alert(data.error || "El correo ya está registrado");
         return;
       }
 
@@ -73,7 +73,7 @@ function Register() {
             className="bg-[#e0e5ec] rounded-lg shadow-inner p-2 text-gray-700" />
 
 
-          <select value={grupo} onChange={(e) => setGrupo(Number(e.target.value))}>
+          <select className="bg-[#e0e5ec] rounded-lg shadow-inner p-2 text-gray-700" value={grupo} onChange={(e) => setGrupo(Number(e.target.value))}>
             <option value={1}>Campesino</option>
             <option value={2}>Comprador</option>
           </select>
