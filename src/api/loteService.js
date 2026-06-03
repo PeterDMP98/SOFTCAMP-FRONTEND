@@ -1,10 +1,15 @@
 import httpClient from "./httpClient";
 
-const ENDPOINT = "/ganado";
+const ENDPOINT = "/lotes";
 
-export const ganadoService = {
+export const loteService = {
   getAll: async () => {
     const res = await httpClient.get(ENDPOINT);
+    return res.data?.data || [];
+  },
+
+  getInactive: async () => {
+    const res = await httpClient.get(`${ENDPOINT}/inactivos`);
     return res.data?.data || [];
   },
 
@@ -23,10 +28,15 @@ export const ganadoService = {
     return res.data;
   },
 
-  delete: async (id) => {
+  deactivate: async (id) => {
     const res = await httpClient.delete(`${ENDPOINT}/${id}`);
+    return res.data;
+  },
+
+  reactivate: async (id) => {
+    const res = await httpClient.put(`${ENDPOINT}/${id}/reactivar`);
     return res.data;
   }
 };
 
-export default ganadoService;
+export default loteService;

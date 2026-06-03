@@ -1,39 +1,32 @@
-function SidebarComprador() {
-    return(
-        <Sidebar>
-      <Link
-        to="/campesino"
-        className="flex items-center gap-3 p-3 rounded-xl hover:bg-green-100 transition"
-      >
-        <Home size={22} className="text-green-700" />
-        <span className="text-gray-700">Inicio</span>
-      </Link>
+import { Link } from "react-router-dom";
+import { Home, Package, ShoppingCart, FileText, Handshake } from "lucide-react";
 
-      <Link
-        to="/campesino/ganado"
-        className="flex items-center gap-3 p-3 rounded-xl hover:bg-green-100 transition"
-      >
-        <Beef size={22} className="text-green-700" />
-        <span className="text-gray-700">Ganado</span>
-      </Link>
+const sections = [
+  { label: "Inicio", path: "/comprador", icon: Home },
+  { label: "Catálogo", path: "/comprador/catalogo", icon: Package },
+  { label: "Carrito", path: "/comprador/carrito", icon: ShoppingCart },
+  { label: "Mis Pedidos", path: "/comprador/pedidos", icon: FileText },
+  { label: "Convenios", path: "/comprador/convenios", icon: Handshake },
+];
 
-      <Link
-        to="/campesino/tareas"
-        className="flex items-center gap-3 p-3 rounded-xl hover:bg-green-100 transition"
-      >
-        <ListTodo size={22} className="text-green-700" />
-        <span className="text-gray-700">Tareas</span>
-      </Link>
+function SidebarComprador({ open }) {
+  const itemBase = "flex items-center gap-3 p-3 rounded-xl hover:bg-blue-100 transition-colors";
+  const labelBase = "whitespace-nowrap transition-all duration-200 ease-out";
 
-      <Link
-        to="/campesino/siembras"
-        className="flex items-center gap-3 p-3 rounded-xl hover:bg-green-100 transition"
-      >
-        <Sprout size={22} className="text-green-700" />
-        <span className="text-gray-700">Siembras</span>
-      </Link>
-    </Sidebar>
-    );
+  return (
+    <>
+      {sections.map(({ label, path, icon: Icon }) => (
+        <Link key={path} to={path} className={itemBase}>
+          <div className="flex justify-center shrink-0">
+            <Icon size={22} className="text-blue-700" />
+          </div>
+          <span className={`${labelBase} ${open ? "opacity-100" : "opacity-0"}`}>
+            {label}
+          </span>
+        </Link>
+      ))}
+    </>
+  );
 }
 
 export default SidebarComprador;

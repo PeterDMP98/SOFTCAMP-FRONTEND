@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import {obtenerGanado, agregarGanado, actualizarGanado, eliminarGanado} from "../api/ganadoService";
+import ganadoService from "../api/ganadoService";
 
 // debounce simple
 function debounce(fn, wait = 300) {
@@ -52,7 +52,7 @@ export const useGanado = () => {
   const cargarGanado = async () => {
     try {
       setLoading(true);
-      const data = await obtenerGanado();
+      const data = await ganadoService.getAll();
       setGanadoList(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error(err);
@@ -73,9 +73,9 @@ export const useGanado = () => {
   const guardarGanado = async (data) => {
     try {
       if (editData) {
-        await actualizarGanado(editData.id_ganado, data);
+        await ganadoService.update(editData.id_ganado, data);
       } else {
-        await agregarGanado(data);
+        await ganadoService.create(data);
       }
       setShowModal(false);
       setEditData(null);
@@ -90,7 +90,7 @@ export const useGanado = () => {
   const borrarGanado = async (id) => {
     if (!window.confirm("¿Desea eliminar este ganado?")) return;
     try {
-      await eliminarGanado(id);
+      await ganadoService.delete(id);
       await cargarGanado();
     } catch (err) {
       console.error(err);
