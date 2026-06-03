@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-import { Home, Package, ShoppingCart, FileText, Handshake } from "lucide-react";
+import { Home, Package, ShoppingCart, FileText, Handshake, Sparkles } from "lucide-react";
 
 const sections = [
   { label: "Inicio", path: "/comprador", icon: Home },
+  { label: "🤖 IA", path: "/comprador/ia", icon: Sparkles },
   { label: "Catálogo", path: "/comprador/catalogo", icon: Package },
   { label: "Carrito", path: "/comprador/carrito", icon: ShoppingCart },
   { label: "Mis Pedidos", path: "/comprador/pedidos", icon: FileText },

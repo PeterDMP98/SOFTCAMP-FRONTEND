@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-import { Beef, ListTodo, Sprout, Home, Map, Package, ShoppingCart, Users, ClipboardList, Handshake, FileText } from "lucide-react";
+import { Beef, ListTodo, Sprout, Home, Map, Package, ShoppingCart, Users, ClipboardList, Handshake, FileText, Sparkles } from "lucide-react";
 
 const sections = [
   { label: "Inicio", path: "/campesino", icon: Home },
+  { label: "🤖 IA", path: "/campesino/ia", icon: Sparkles },
   { label: "Ganado", path: "/campesino/ganado", icon: Beef },
   { label: "Lotes", path: "/campesino/lotes", icon: Map },
   { label: "Siembra", path: "/campesino/siembra", icon: Sprout },

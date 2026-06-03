@@ -23,12 +23,14 @@ import CampesinoEmpleados from "../pages/campesino/CampesinoEmpleados";
 import CampesinoTareas from "../pages/campesino/CampesinoTareas";
 import CampesinoConvenios from "../pages/campesino/CampesinoConvenios";
 import CampesinoPedidos from "../pages/campesino/CampesinoPedidos";
+import CampesinoIA from "../pages/campesino/CampesinoIA";
 
 /* COMPRADOR */
 import CompradorDashboard from "../pages/comprador/CompradorDashboard";
 import CompradorCatalogo from "../pages/comprador/CompradorCatalogo";
 import CompradorCarrito from "../pages/comprador/CompradorCarrito";
 import CompradorPedidos from "../pages/comprador/CompradorPedidos";
+import CompradorIA from "../pages/comprador/CompradorIA";
 
 function AppRoutes() {
   return (
@@ -60,6 +62,7 @@ function AppRoutes() {
         <Route path="/campesino/tareas" element={<CampesinoTareas />} />
         <Route path="/campesino/convenios" element={<CampesinoConvenios />} />
         <Route path="/campesino/pedidos" element={<CampesinoPedidos />} />
+        <Route path="/campesino/ia" element={<CampesinoIA />} />
       </Route>
 
       {/* Protegidas Comprador */}
@@ -74,6 +77,7 @@ function AppRoutes() {
         <Route path="/comprador/catalogo" element={<CompradorCatalogo />} />
         <Route path="/comprador/carrito" element={<CompradorCarrito />} />
         <Route path="/comprador/pedidos" element={<CompradorPedidos />} />
+        <Route path="/comprador/ia" element={<CompradorIA />} />
       </Route>
 
       <Route path="/" element={<Navigate to="/login" replace />} />
