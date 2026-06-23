@@ -1,22 +1,27 @@
 import { useState, useEffect, useCallback } from "react";
 import siembraService from "../api/siembraService";
+import { isOnline } from "../offline/queueStore";
+import {
+  loadEntityList,
+  saveEntityOffline,
+  applyOptimisticToList,
+} from "../offline/offlineCrud";
 
 export const useSiembra = () => {
   const [siembras, setSiembras] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
   const [showModal, setShowModal] = useState(false);
   const [editData, setEditData] = useState(null);
 
   const fetchSiembra = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await siembraService.getAll();
-      setSiembras(data);
-      setError(null);
+      const { list, message } = await loadEntityList("siembra", () => siembraService.getAll());
+      setSiembras(list);
+      setError(message || null);
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Error cargando siembras");
     } finally {
       setLoading(false);
     }
@@ -29,11 +34,22 @@ export const useSiembra = () => {
   const guardarSiembra = async (data) => {
     setLoading(true);
     try {
-      if (data.id_siembra) {
-        await siembraService.update(data.id_siembra, data);
-      } else {
-        await siembraService.create(data);
+      if (!isOnline()) {
+        saveEntityOffline({
+          entity: "siembra",
+          idField: "id_siembra",
+          data,
+          editRecord: editData,
+          onListUpdate: (item, isNew) => {
+            setSiembras((prev) => applyOptimisticToList(prev, item, "id_siembra", isNew));
+          },
+        });
+        setShowModal(false);
+        setEditData(null);
+        return;
       }
+      if (data.id_siembra) await siembraService.update(data.id_siembra, data);
+      else await siembraService.create(data);
       await fetchSiembra();
       setShowModal(false);
       setEditData(null);
@@ -48,6 +64,10 @@ export const useSiembra = () => {
     if (!confirm("¿Eliminar esta siembra?")) return;
     setLoading(true);
     try {
+      if (!isOnline()) {
+        setSiembras((prev) => prev.filter((s) => s.id_siembra !== id));
+        return;
+      }
       await siembraService.remove(id);
       await fetchSiembra();
     } catch (err) {

@@ -12,13 +12,8 @@ import PublicRoute from "./PublicRoute";
 /* CAMPESINO */
 import CampesinoDashboard from "../pages/campesino/CampesinoDashboard";
 import CampesinoGanado from "../pages/campesino/CampesinoGanado";
-import CampesinoLotes from "../pages/campesino/CampesinoLotes";
 import CampesinoSiembra from "../pages/campesino/CampesinoSiembra";
 import CampesinoProductos from "../pages/campesino/CampesinoProductos";
-import CampesinoStock from "../pages/campesino/CampesinoStock";
-import CampesinoHistorialClinico from "../pages/campesino/CampesinoHistorialClinico";
-import CampesinoRegistroPesaje from "../pages/campesino/CampesinoRegistroPesaje";
-import CampesinoRegistroReproduccion from "../pages/campesino/CampesinoRegistroReproduccion";
 import CampesinoEmpleados from "../pages/campesino/CampesinoEmpleados";
 import CampesinoTareas from "../pages/campesino/CampesinoTareas";
 import CampesinoConvenios from "../pages/campesino/CampesinoConvenios";
@@ -30,7 +25,7 @@ import CompradorDashboard from "../pages/comprador/CompradorDashboard";
 import CompradorCatalogo from "../pages/comprador/CompradorCatalogo";
 import CompradorCarrito from "../pages/comprador/CompradorCarrito";
 import CompradorPedidos from "../pages/comprador/CompradorPedidos";
-import CompradorIA from "../pages/comprador/CompradorIA";
+import CompradorConvenios from "../pages/comprador/CompradorConvenios";
 
 function AppRoutes() {
   return (
@@ -51,13 +46,13 @@ function AppRoutes() {
       >
         <Route path="/campesino" element={<CampesinoDashboard />} />
         <Route path="/campesino/ganado" element={<CampesinoGanado />} />
-        <Route path="/campesino/lotes" element={<CampesinoLotes />} />
+        <Route path="/campesino/lotes" element={<Navigate to="/campesino/siembra" replace />} />
         <Route path="/campesino/siembra" element={<CampesinoSiembra />} />
         <Route path="/campesino/productos" element={<CampesinoProductos />} />
-        <Route path="/campesino/stock" element={<CampesinoStock />} />
-        <Route path="/campesino/historial-clinico" element={<CampesinoHistorialClinico />} />
-        <Route path="/campesino/registro-pesaje" element={<CampesinoRegistroPesaje />} />
-        <Route path="/campesino/registro-reproduccion" element={<CampesinoRegistroReproduccion />} />
+        <Route path="/campesino/stock" element={<Navigate to="/campesino/productos" replace />} />
+        <Route path="/campesino/historial-clinico" element={<Navigate to="/campesino/ganado" replace />} />
+        <Route path="/campesino/registro-pesaje" element={<Navigate to="/campesino/ganado" replace />} />
+        <Route path="/campesino/registro-reproduccion" element={<Navigate to="/campesino/ganado" replace />} />
         <Route path="/campesino/empleados" element={<CampesinoEmpleados />} />
         <Route path="/campesino/tareas" element={<CampesinoTareas />} />
         <Route path="/campesino/convenios" element={<CampesinoConvenios />} />
@@ -77,7 +72,7 @@ function AppRoutes() {
         <Route path="/comprador/catalogo" element={<CompradorCatalogo />} />
         <Route path="/comprador/carrito" element={<CompradorCarrito />} />
         <Route path="/comprador/pedidos" element={<CompradorPedidos />} />
-        <Route path="/comprador/ia" element={<CompradorIA />} />
+        <Route path="/comprador/convenios" element={<CompradorConvenios />} />
       </Route>
 
       <Route path="/" element={<Navigate to="/login" replace />} />

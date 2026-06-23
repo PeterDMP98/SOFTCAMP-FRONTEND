@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Loader, AlertCircle } from "lucide-react";
+import { Loader, AlertCircle, Bot, Sparkles } from "lucide-react";
 import MessageBubble from "./MessageBubble.jsx";
 import MessageInput from "./MessageInput.jsx";
 import { iaService } from "../../api/iaService.js";
@@ -19,7 +19,6 @@ export default function ChatContainer({ id_chat, onChatCreated }) {
     scrollToBottom();
   }, [mensajes]);
 
-  // Cargar conversación existente
   useEffect(() => {
     const cargarChat = async () => {
       if (!currentChatId) return;
@@ -44,7 +43,6 @@ export default function ChatContainer({ id_chat, onChatCreated }) {
       setIsLoading(true);
       setError(null);
 
-      // Agregar mensaje del usuario localmente
       const mensajeUsuario = {
         rol: "user",
         contenido,
@@ -52,7 +50,6 @@ export default function ChatContainer({ id_chat, onChatCreated }) {
       };
       setMensajes((prev) => [...prev, mensajeUsuario]);
 
-      // Enviar al servidor
       const respuesta = await iaService.enviarMensaje(currentChatId, contenido);
 
       if (!currentChatId) {
@@ -62,7 +59,6 @@ export default function ChatContainer({ id_chat, onChatCreated }) {
         }
       }
 
-      // Agregar respuesta de la IA
       const mensajeIA = {
         rol: "assistant",
         contenido: respuesta.mensaje,
@@ -71,7 +67,6 @@ export default function ChatContainer({ id_chat, onChatCreated }) {
       setMensajes((prev) => [...prev, mensajeIA]);
     } catch (err) {
       setError(err.response?.data?.error || "Error al enviar el mensaje");
-      // Remover el mensaje del usuario si hubo error
       setMensajes((prev) => prev.slice(0, -1));
     } finally {
       setIsLoading(false);
@@ -79,28 +74,27 @@ export default function ChatContainer({ id_chat, onChatCreated }) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-white rounded-lg shadow-lg overflow-hidden">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-green-500 to-green-600 text-white p-4">
-        <h2 className="text-xl font-bold">🌱 Asistente Agrícola IA</h2>
-        <p className="text-sm opacity-90">Pregunta sobre cultivos, ganado y más</p>
-      </div>
-
-      {/* Chat Area */}
-      <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
+    <div className="flex h-full flex-col">
+      {/* Chat Messages */}
+      <div className="flex-1 space-y-4 overflow-y-auto p-4">
         {mensajes.length === 0 && !isLoading && (
-          <div className="flex items-center justify-center h-full text-center text-gray-500">
+          <div className="flex h-full items-center justify-center text-center">
             <div>
-              <p className="text-lg font-semibold mb-2">Bienvenido al Asistente Agrícola</p>
-              <p className="text-sm">Haz una pregunta sobre cultivos, ganadería o cualquier tema agrícola.</p>
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500/15">
+                <Bot size={28} className="text-emerald-300" />
+              </div>
+              <p className="mb-1 text-lg font-semibold text-white">Asistente Agrícola</p>
+              <p className="max-w-sm text-sm text-slate-400">
+                Pregunta sobre cultivos, ganado, plagas, fertilización, clima o cualquier tema del campo.
+              </p>
             </div>
           </div>
         )}
 
         {error && (
-          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg flex gap-2">
-            <AlertCircle className="w-5 h-5 flex-shrink-0" />
-            <span className="text-sm">{error}</span>
+          <div className="flex items-start gap-2 rounded-xl border border-red-500/20 bg-red-500/10 p-3 text-sm text-red-300">
+            <AlertCircle size={16} className="mt-0.5 shrink-0" />
+            <span>{error}</span>
           </div>
         )}
 
@@ -113,16 +107,18 @@ export default function ChatContainer({ id_chat, onChatCreated }) {
         ))}
 
         {isLoading && (
-          <div className="flex items-center justify-center gap-2 text-green-600 py-4">
-            <Loader className="w-5 h-5 animate-spin" />
-            <span>Pensando...</span>
+          <div className="flex items-center gap-2 text-sm text-emerald-300">
+            <div className="flex items-center gap-1.5 rounded-xl border border-white/5 bg-white/[0.03] px-4 py-2.5">
+              <Sparkles size={14} className="animate-pulse" />
+              <span>Pensando...</span>
+            </div>
           </div>
         )}
 
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Area */}
+      {/* Input */}
       <MessageInput onSendMessage={handleSendMessage} isLoading={isLoading} />
     </div>
   );

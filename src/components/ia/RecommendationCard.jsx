@@ -1,4 +1,4 @@
-import { CheckCircle, XCircle, Lightbulb, TrendingUp } from "lucide-react";
+import { CheckCircle, XCircle, Lightbulb, TrendingUp, Bot } from "lucide-react";
 import { useState } from "react";
 import { iaService } from "../../api/iaService.js";
 
@@ -45,38 +45,40 @@ export default function RecommendationCard({ recomendacion, onActionComplete }) 
 
   const getTipoBadge = () => {
     const tipos = {
-      cultivo: "bg-yellow-100 text-yellow-800",
-      ganado: "bg-blue-100 text-blue-800",
-      tarea: "bg-purple-100 text-purple-800",
-      tratamiento: "bg-red-100 text-red-800",
-      siembra: "bg-green-100 text-green-800",
+      cultivo: "bg-yellow-500/15 text-yellow-300 border-yellow-500/20",
+      ganado: "bg-blue-500/15 text-blue-300 border-blue-500/20",
+      tarea: "bg-purple-500/15 text-purple-300 border-purple-500/20",
+      tratamiento: "bg-red-500/15 text-red-300 border-red-500/20",
+      siembra: "bg-emerald-500/15 text-emerald-300 border-emerald-500/20",
     };
-    return tipos[recomendacion.tipo] || "bg-gray-100 text-gray-800";
+    return tipos[recomendacion.tipo] || "bg-white/5 text-slate-300 border-white/10";
   };
 
   return (
-    <div className="bg-white border-l-4 border-green-500 p-4 rounded-lg shadow-sm mb-3 hover:shadow-md transition">
+    <div className="rounded-2xl border border-white/10 bg-[#13111a] p-5 text-white shadow-[0_18px_45px_rgba(0,0,0,0.22)] transition hover:border-emerald-500/20">
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1">
-          <div className="flex items-center gap-2 mb-2">
-            <Lightbulb className="w-5 h-5 text-yellow-500 flex-shrink-0" />
-            <span className={`px-2 py-1 rounded text-xs font-semibold ${getTipoBadge()}`}>
+          <div className="mb-3 flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500/15">
+              <Lightbulb size={16} className="text-emerald-300" />
+            </div>
+            <span className={`rounded-full border px-2.5 py-0.5 text-xs font-semibold ${getTipoBadge()}`}>
               {recomendacion.tipo}
             </span>
             {recomendacion.confianza && (
-              <div className="flex items-center gap-1">
-                <TrendingUp className="w-4 h-4 text-green-500" />
-                <span className="text-xs text-gray-600">{Math.round(recomendacion.confianza * 100)}%</span>
+              <div className="flex items-center gap-1 rounded-full bg-white/5 px-2.5 py-0.5 text-xs text-slate-400">
+                <TrendingUp size={12} className="text-emerald-400" />
+                {Math.round(recomendacion.confianza * 100)}%
               </div>
             )}
           </div>
 
-          <h3 className="font-semibold text-gray-800 mb-1">{recomendacion.titulo}</h3>
-          <p className="text-sm text-gray-600 mb-3">{recomendacion.descripcion}</p>
+          <h3 className="mb-1 text-base font-semibold text-white">{recomendacion.titulo}</h3>
+          <p className="text-sm leading-relaxed text-slate-300">{recomendacion.descripcion}</p>
 
           {isAccepted && (
-            <div className="flex items-center gap-1 text-green-600 text-sm mb-3">
-              <CheckCircle className="w-4 h-4" />
+            <div className="mt-3 flex items-center gap-1.5 text-sm text-emerald-300">
+              <CheckCircle size={16} />
               <span>Recomendación aceptada</span>
             </div>
           )}
@@ -84,28 +86,29 @@ export default function RecommendationCard({ recomendacion, onActionComplete }) 
       </div>
 
       {!isAccepted && (
-        <div className="flex gap-2 mt-3 pt-3 border-t border-gray-100">
+        <div className="mt-4 flex flex-wrap gap-2 border-t border-white/5 pt-4">
           <button
             onClick={handleAceptar}
             disabled={isLoading}
-            className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-green-500 text-white rounded text-sm hover:bg-green-600 disabled:bg-gray-400 transition"
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-emerald-500/20 px-4 py-2.5 text-sm text-emerald-300 transition hover:bg-emerald-500/30 disabled:opacity-40"
           >
-            <CheckCircle className="w-4 h-4" />
+            <CheckCircle size={16} />
             Aceptar
           </button>
           <button
             onClick={handleGenerarTarea}
             disabled={isLoading}
-            className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-blue-500 text-white rounded text-sm hover:bg-blue-600 disabled:bg-gray-400 transition"
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-blue-500/20 px-4 py-2.5 text-sm text-blue-300 transition hover:bg-blue-500/30 disabled:opacity-40"
           >
-            📋 Crear Tarea
+            <Bot size={16} />
+            Crear Tarea
           </button>
           <button
             onClick={handleRechazar}
             disabled={isLoading}
-            className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-red-500 text-white rounded text-sm hover:bg-red-600 disabled:bg-gray-400 transition"
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-red-500/20 px-4 py-2.5 text-sm text-red-300 transition hover:bg-red-500/30 disabled:opacity-40"
           >
-            <XCircle className="w-4 h-4" />
+            <XCircle size={16} />
             Rechazar
           </button>
         </div>

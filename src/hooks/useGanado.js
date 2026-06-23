@@ -1,5 +1,11 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import ganadoService from "../api/ganadoService";
+import { isOnline } from "../offline/queueStore";
+import {
+  loadEntityList,
+  saveEntityOffline,
+  applyOptimisticToList,
+} from "../offline/offlineCrud";
 
 // debounce simple
 function debounce(fn, wait = 300) {
@@ -52,8 +58,9 @@ export const useGanado = () => {
   const cargarGanado = async () => {
     try {
       setLoading(true);
-      const data = await ganadoService.getAll();
-      setGanadoList(Array.isArray(data) ? data : []);
+      const { list, message } = await loadEntityList("ganado", () => ganadoService.getAll());
+      setGanadoList(list);
+      setError(message || null);
     } catch (err) {
       console.error(err);
       setError("Error cargando ganado");
@@ -72,6 +79,21 @@ export const useGanado = () => {
   // =========================
   const guardarGanado = async (data) => {
     try {
+      if (!isOnline()) {
+        saveEntityOffline({
+          entity: "ganado",
+          idField: "id_ganado",
+          data,
+          editRecord: editData,
+          onListUpdate: (item, isNew) => {
+            setGanadoList((prev) => applyOptimisticToList(prev, item, "id_ganado", isNew));
+          },
+        });
+        setShowModal(false);
+        setEditData(null);
+        setCurrentPage(1);
+        return;
+      }
       if (editData) {
         await ganadoService.update(editData.id_ganado, data);
       } else {
@@ -213,6 +235,7 @@ export const useGanado = () => {
   return {
     // data
     ganadoList: paginatedList,
+    allGanadoList: ganadoList,
     totalItems,
     totalPages,
     loading,
@@ -248,6 +271,8 @@ export const useGanado = () => {
     setCurrentPage,
     pageSize,
     setPageSize,
+    sortField,
+    sortDirection,
 
     // acciones
     guardarGanado,

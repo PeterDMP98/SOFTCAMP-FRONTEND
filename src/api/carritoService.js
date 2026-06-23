@@ -11,6 +11,10 @@ export const carritoService = {
     const res = await httpClient.post(ENDPOINT, data);
     return res.data;
   },
+  updateItem: async (id_item, data) => {
+    const res = await httpClient.put(`${ENDPOINT}/${id_item}`, data);
+    return res.data;
+  },
   removeItem: async (id_producto) => {
     const res = await httpClient.delete(`${ENDPOINT}/${id_producto}`);
     return res.data;

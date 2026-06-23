@@ -13,29 +13,29 @@ export default function MessageInput({ onSendMessage, isLoading }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2 p-4 bg-gray-100 rounded-b-lg">
+    <form onSubmit={handleSubmit} className="flex gap-2 rounded-b-2xl border-t border-white/5 bg-black/20 p-4">
       <input
         type="text"
         value={mensaje}
         onChange={(e) => setMensaje(e.target.value)}
         disabled={isLoading}
         placeholder="Escribe tu pregunta agrícola..."
-        className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 disabled:bg-gray-200 disabled:cursor-not-allowed"
+        className="flex-1 rounded-xl border border-white/10 bg-black/30 px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none focus:border-emerald-500/40 disabled:cursor-not-allowed disabled:opacity-50"
       />
       <button
         type="submit"
         disabled={isLoading || !mensaje.trim()}
-        className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2 transition"
+        className="flex items-center gap-2 rounded-xl bg-emerald-500/20 px-4 py-2.5 text-sm text-emerald-300 transition hover:bg-emerald-500/30 disabled:cursor-not-allowed disabled:opacity-40"
       >
         {isLoading ? (
           <>
-            <Loader className="w-5 h-5 animate-spin" />
-            Cargando...
+            <Loader size={16} className="animate-spin" />
+            <span className="hidden sm:inline">Enviando</span>
           </>
         ) : (
           <>
-            <Send className="w-5 h-5" />
-            Enviar
+            <Send size={16} />
+            <span className="hidden sm:inline">Enviar</span>
           </>
         )}
       </button>

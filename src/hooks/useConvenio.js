@@ -45,7 +45,7 @@ export const useConvenio = () => {
     if (!confirm("¿Cancelar este convenio?")) return;
     setLoading(true);
     try {
-      await conveniosService.remove(id);
+      await conveniosService.delete(id);
       await fetchConvenios();
     } catch (err) {
       setError(err.message);

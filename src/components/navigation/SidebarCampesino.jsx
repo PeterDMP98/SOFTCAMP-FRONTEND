@@ -1,48 +1,70 @@
-import { Link } from "react-router-dom";
-import { Beef, ListTodo, Sprout, Home, Map, Package, ShoppingCart, Users, ClipboardList, Handshake, FileText, Sparkles } from "lucide-react";
+import { NavLink } from "react-router-dom";
+import {
+  Beef,
+  Sprout,
+  Package,
+  Home,
+  Users,
+  ClipboardList,
+  Handshake,
+  FileText,
+  Sparkles,
+} from "lucide-react";
 
 const sections = [
   { label: "Inicio", path: "/campesino", icon: Home },
-  { label: "🤖 IA", path: "/campesino/ia", icon: Sparkles },
   { label: "Ganado", path: "/campesino/ganado", icon: Beef },
-  { label: "Lotes", path: "/campesino/lotes", icon: Map },
   { label: "Siembra", path: "/campesino/siembra", icon: Sprout },
-  { label: "Productos", path: "/campesino/productos", icon: Package },
-  { label: "Stock", path: "/campesino/stock", icon: ShoppingCart },
-  { label: "Historial Clínico", path: "/campesino/historial-clinico", icon: FileText },
-  { label: "Registro Pesaje", path: "/campesino/registro-pesaje", icon: FileText },
-  { label: "Reproducción", path: "/campesino/registro-reproduccion", icon: Beef },
+  { label: "Inventario", path: "/campesino/productos", icon: Package },
   { label: "Empleados", path: "/campesino/empleados", icon: Users },
   { label: "Tareas", path: "/campesino/tareas", icon: ClipboardList },
   { label: "Convenios", path: "/campesino/convenios", icon: Handshake },
   { label: "Pedidos", path: "/campesino/pedidos", icon: FileText },
+  { label: "IA", path: "/campesino/ia", icon: Sparkles },
 ];
 
 function SidebarCampesino({ open }) {
-
   const itemBase =
-    "flex items-center gap-3 p-3 rounded-xl hover:bg-green-100 transition-colors";
-
-  const labelBase =
-    "whitespace-nowrap transition-all duration-200 ease-out will-change-transform will-change-opacity";
+    "group flex items-center rounded-2xl border border-transparent text-sm font-medium text-slate-300 transition";
+  const labelBase = "whitespace-nowrap transition-all duration-200 ease-out overflow-hidden";
 
   return (
     <>
-      {sections.map(({label, path, icon: Icon}) => (
-        <Link key={path} to={path} className={itemBase}>
-        <div className="flex justify-center shrink-0">
-          <Icon size={22} className="text-green-700" />
-        </div>
+      <div className={`mb-2 text-[11px] uppercase tracking-[0.24em] text-slate-500 ${open ? "px-3 block" : "hidden text-center"}`}>
+        Menu
+      </div>
 
-        <span
-          className={`${labelBase} ${open
-              ? "opacity-100 translate-x-0"
-              : "opacity-0 translate-x-2 pointer-events-none"
-            }`}
+      {sections.map(({ label, path, icon: Icon }) => (
+        <NavLink
+          key={path}
+          to={path}
+          end={path === "/campesino"}
+          className={({ isActive }) =>
+            `${itemBase} ${
+              open
+                ? "gap-3 px-3 py-3"
+                : "justify-center px-0 py-3"
+            } ${
+              isActive
+                ? "border-emerald-500/30 bg-emerald-500/15 text-white shadow-[0_12px_30px_rgba(16,185,129,0.14)]"
+                : "bg-white/0 hover:border-white/10 hover:bg-white/5"
+            }`
+          }
         >
-          {label}
-        </span>
-      </Link>
+          <div className="flex justify-center">
+            <Icon size={20} className="text-emerald-300" />
+          </div>
+
+          <span
+            className={`${labelBase} ${
+              open
+                ? "max-w-[120px] opacity-100"
+                : "max-w-0 opacity-0"
+            }`}
+          >
+            {label}
+          </span>
+        </NavLink>
       ))}
     </>
   );

@@ -5,10 +5,10 @@ import Button from "../UI/Button";
 import Modal, { ModalFooter } from "../UI/Modal";
 import { useContrapartes } from "../../hooks/useContrapartes";
 
-const ConvenioForm = ({ initialData, onSubmit, onClose }) => {
+const ConvenioCompradorForm = ({ initialData, onSubmit, onClose }) => {
   const { options, loading: loadingUsers, error: usersError } = useContrapartes();
   const [formData, setFormData] = useState({
-    id_usuario_comprador: "",
+    id_usuario_campesino: "",
     descuento: "",
     detalle_de_contrato: "",
     fecha_fin: "",
@@ -18,7 +18,7 @@ const ConvenioForm = ({ initialData, onSubmit, onClose }) => {
   useEffect(() => {
     if (initialData) {
       setFormData({
-        id_usuario_comprador: String(initialData.id_usuario_comprador || ""),
+        id_usuario_campesino: String(initialData.id_usuario_campesino || ""),
         descuento: initialData.descuento ?? "",
         detalle_de_contrato: initialData.detalle_de_contrato || "",
         fecha_fin: initialData.fecha_fin?.split("T")[0] || "",
@@ -35,7 +35,7 @@ const ConvenioForm = ({ initialData, onSubmit, onClose }) => {
     onSubmit({
       ...formData,
       id_convenio: initialData?.id_convenio,
-      id_usuario_comprador: parseInt(formData.id_usuario_comprador, 10),
+      id_usuario_campesino: parseInt(formData.id_usuario_campesino, 10),
       descuento: parseFloat(formData.descuento) || 0,
     });
   };
@@ -51,25 +51,23 @@ const ConvenioForm = ({ initialData, onSubmit, onClose }) => {
     <Modal
       isOpen={true}
       onClose={onClose}
-      title={initialData ? "Editar Convenio" : "Nuevo Convenio"}
+      title={initialData ? "Editar Convenio" : "Nuevo Convenio con Campesino"}
       size="md"
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         {!initialData && (
           <>
             <Select
-              label="Comprador"
-              name="id_usuario_comprador"
-              value={formData.id_usuario_comprador}
+              label="Campesino"
+              name="id_usuario_campesino"
+              value={formData.id_usuario_campesino}
               onChange={handleChange}
-              placeholder={loadingUsers ? "Cargando..." : "Seleccione comprador"}
+              placeholder={loadingUsers ? "Cargando..." : "Seleccione campesino"}
               options={options}
               required
               disabled={loadingUsers}
             />
-            {usersError && (
-              <p className="text-sm text-red-600">{usersError}</p>
-            )}
+            {usersError && <p className="text-sm text-red-600">{usersError}</p>}
           </>
         )}
         <Input
@@ -90,7 +88,7 @@ const ConvenioForm = ({ initialData, onSubmit, onClose }) => {
             value={formData.detalle_de_contrato}
             onChange={handleChange}
             rows={3}
-            className="p-2 border rounded-lg outline-none focus:ring-2 focus:ring-green-200"
+            className="p-2 border rounded-lg outline-none focus:ring-2 focus:ring-blue-200"
           />
         </div>
         <div className="grid grid-cols-2 gap-4">
@@ -101,7 +99,7 @@ const ConvenioForm = ({ initialData, onSubmit, onClose }) => {
           <Button variant="secondary" onClick={onClose}>
             Cancelar
           </Button>
-          <Button type="submit" disabled={!initialData && !formData.id_usuario_comprador}>
+          <Button type="submit" disabled={!initialData && !formData.id_usuario_campesino}>
             {initialData ? "Actualizar" : "Crear"}
           </Button>
         </ModalFooter>
@@ -110,4 +108,4 @@ const ConvenioForm = ({ initialData, onSubmit, onClose }) => {
   );
 };
 
-export default ConvenioForm;
+export default ConvenioCompradorForm;
