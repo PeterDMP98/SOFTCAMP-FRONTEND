@@ -18,7 +18,7 @@ httpClient.interceptors.request.use((config) => {
 
 // ✅ Manejo global de errores y expiración de sesión
 httpClient.interceptors.response.use(
-  (response) => response.data, // ✅ devuelve solo data
+  (response) => response,
   (error) => {
     if (error.response?.status === 401) {
       // Token inválido o expirado

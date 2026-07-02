@@ -16,7 +16,7 @@ const LoteForm = ({ initialData, onSubmit, onClose }) => {
       setFormData({
         nombre: initialData.nombre || "",
         ubicacion: initialData.ubicacion || "",
-        area_hectareas: initialData.area_hectareas || "",
+        area_hectareas: initialData.area_hectareas || initialData.tamano_hectareas || "",
         descripcion: initialData.descripcion || "",
       });
     }
@@ -29,10 +29,12 @@ const LoteForm = ({ initialData, onSubmit, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const clean = Object.fromEntries(Object.entries(formData).filter(([_, v]) => v !== ""));
+    const { ubicacion, area_hectareas, ...rest } = clean;
     onSubmit({
-      ...formData,
+      ...rest,
       id_lote: initialData?.id_lote,
-      area_hectareas: parseFloat(formData.area_hectareas) || 0,
+      tamano_hectareas: parseFloat(area_hectareas) || 0,
     });
   };
 
@@ -72,14 +74,14 @@ const LoteForm = ({ initialData, onSubmit, onClose }) => {
         />
 
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-gray-700">Descripción</label>
+          <label className="text-sm font-medium text-white">Descripción</label>
           <textarea
             name="descripcion"
             value={formData.descripcion}
             onChange={handleChange}
             placeholder="Descripción opcional del lote..."
             rows={3}
-            className="p-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-green-200 focus:border-green-500"
+            className="rounded-2xl border border-white/10 bg-[#0d0f15] px-4 py-3 text-sm text-white outline-none ring-0 placeholder:text-slate-500 focus:border-emerald-400/60 resize-none"
           />
         </div>
 

@@ -15,14 +15,26 @@ const StockForm = ({ initialData, onSubmit, onClose, productos = [] }) => {
   useEffect(() => {
     if (initialData) setFormData({
       id_producto: initialData.id_producto || "",
-      cantidad: initialData.cantidad || "",
+      cantidad: initialData.cantidad || initialData.cantidad_stock || "",
       stock_minimo: initialData.stock_minimo || "",
       ubicacion: initialData.ubicacion || "",
     });
   }, [initialData]);
 
   const handleChange = (e) => setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  const handleSubmit = (e) => { e.preventDefault(); onSubmit({ ...formData, id_stock: initialData?.id_stock, cantidad: parseInt(formData.cantidad) || 0, stock_minimo: parseInt(formData.stock_minimo) || 0 }); };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const clean = Object.fromEntries(Object.entries(formData).filter(([_, v]) => v !== ""));
+    const { cantidad, stock_minimo, ubicacion, ...rest } = clean;
+    onSubmit({
+      ...rest,
+      id_stock: initialData?.id_stock,
+      cantidad_stock: parseInt(cantidad) || 0,
+      unidad_de_medida: "kg",
+      cantidad_en_paquetes: 0,
+      precio: 0,
+    });
+  };
 
   const prodOptions = productos.map(p => ({ value: p.id_producto, label: p.nombre }));
 

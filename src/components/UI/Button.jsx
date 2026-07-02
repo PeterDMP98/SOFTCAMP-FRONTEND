@@ -12,11 +12,11 @@ const Button = ({
     "font-medium rounded-lg transition-all duration-200 flex items-center justify-center gap-2";
 
   const variants = {
-    primary: "bg-green-600 text-white hover:bg-green-700 active:bg-green-800",
-    secondary: "bg-gray-200 text-gray-700 hover:bg-gray-300 active:bg-gray-400",
-    danger: "bg-red-600 text-white hover:bg-red-700 active:bg-red-800",
-    outline: "border-2 border-green-600 text-green-600 hover:bg-green-50",
-    ghost: "text-green-700 hover:bg-green-100",
+    primary: "bg-emerald-500/20 text-white hover:bg-emerald-500/30 border border-white/10",
+    secondary: "bg-white/5 text-slate-300 hover:bg-white/10 border border-white/10",
+    danger: "bg-red-500/20 text-red-300 hover:bg-red-500/30 border border-red-500/20",
+    outline: "border border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/10",
+    ghost: "text-emerald-300 hover:bg-white/5",
   };
 
   const sizes = {

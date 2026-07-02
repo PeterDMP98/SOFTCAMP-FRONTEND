@@ -32,8 +32,9 @@ const ConvenioForm = ({ initialData, onSubmit, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const clean = Object.fromEntries(Object.entries(formData).filter(([_, v]) => v !== ""));
     onSubmit({
-      ...formData,
+      ...clean,
       id_convenio: initialData?.id_convenio,
       id_usuario_comprador: parseInt(formData.id_usuario_comprador, 10),
       descuento: parseFloat(formData.descuento) || 0,
@@ -84,13 +85,13 @@ const ConvenioForm = ({ initialData, onSubmit, onClose }) => {
           placeholder="0.15 = 15%"
         />
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-gray-700">Detalles del contrato</label>
+          <label className="text-sm font-medium text-white">Detalles del contrato</label>
           <textarea
             name="detalle_de_contrato"
             value={formData.detalle_de_contrato}
             onChange={handleChange}
             rows={3}
-            className="p-2 border rounded-lg outline-none focus:ring-2 focus:ring-green-200"
+            className="rounded-2xl border border-white/10 bg-[#0d0f15] px-4 py-3 text-sm text-white outline-none ring-0 placeholder:text-slate-500 focus:border-emerald-400/60 resize-none"
           />
         </div>
         <div className="grid grid-cols-2 gap-4">

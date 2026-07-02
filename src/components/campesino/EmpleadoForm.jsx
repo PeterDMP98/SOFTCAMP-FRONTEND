@@ -26,7 +26,7 @@ const EmpleadoForm = ({ initialData, onSubmit, onClose }) => {
   }, [initialData]);
 
   const handleChange = (e) => setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  const handleSubmit = (e) => { e.preventDefault(); onSubmit({ ...formData, id_empleado: initialData?.id_empleado, salario: parseFloat(formData.salario) || 0 }); };
+  const handleSubmit = (e) => { e.preventDefault(); const clean = Object.fromEntries(Object.entries(formData).filter(([_, v]) => v !== "")); onSubmit({ ...clean, id_empleado: initialData?.id_empleado, salario: parseFloat(formData.salario) || 0 }); };
 
   const rolOptions = [
     { value: "trabajador", label: "Trabajador" },

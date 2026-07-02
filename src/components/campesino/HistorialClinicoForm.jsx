@@ -24,7 +24,7 @@ const HistorialClinicoForm = ({ initialData, onSubmit, onClose, animales = [] })
   }, [initialData]);
 
   const handleChange = (e) => setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  const handleSubmit = (e) => { e.preventDefault(); onSubmit({ ...formData, id_historial: initialData?.id_historial }); };
+  const handleSubmit = (e) => { e.preventDefault(); const clean = Object.fromEntries(Object.entries(formData).filter(([_, v]) => v !== "")); onSubmit({ ...clean, id_historial: initialData?.id_historial }); };
 
   const tipoOptions = [
     { value: "vacuna", label: "Vacuna" },
@@ -43,12 +43,12 @@ const HistorialClinicoForm = ({ initialData, onSubmit, onClose, animales = [] })
         <Select label="Tipo de Registro" name="tipo_registro" value={formData.tipo_registro} onChange={handleChange} options={tipoOptions} />
         <Input label="Fecha" name="fecha_registro" type="date" value={formData.fecha_registro} onChange={handleChange} required />
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-gray-700">Descripción</label>
-          <textarea name="descripcion" value={formData.descripcion} onChange={handleChange} rows={2} className="p-2 border rounded-lg outline-none focus:ring-2 focus:ring-green-200" />
+          <label className="text-sm font-medium text-white">Descripción</label>
+          <textarea name="descripcion" value={formData.descripcion} onChange={handleChange} rows={2} className="p-2 rounded-lg outline-none focus:ring-2 focus:ring-green-200 border border-white/10 bg-[#111019] text-withe" />
         </div>
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-gray-700">Notas</label>
-          <textarea name="notes" value={formData.notes} onChange={handleChange} rows={2} className="p-2 border rounded-lg outline-none focus:ring-2 focus:ring-green-200" />
+          <label className="text-sm font-medium text-white">Notas</label>
+          <textarea name="notes" value={formData.notes} onChange={handleChange} rows={2} className="p-2 rounded-lg outline-none focus:ring-2 focus:ring-green-200 border border-white/10 bg-[#111019] text-withe" />
         </div>
         <ModalFooter>
           <Button variant="secondary" onClick={onClose}>Cancelar</Button>

@@ -3,6 +3,10 @@ import httpClient from "./httpClient";
 const ENDPOINT = "/historial-clinico";
 
 export const historialClinicoService = {
+  getAll: async () => {
+    const res = await httpClient.get(ENDPOINT);
+    return res.data?.data || [];
+  },
   getByGanado: async (id_ganado) => {
     const res = await httpClient.get(`${ENDPOINT}/ganado/${id_ganado}`);
     return res.data?.data || [];

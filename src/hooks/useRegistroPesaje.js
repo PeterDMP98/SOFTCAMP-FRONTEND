@@ -29,7 +29,8 @@ export const useRegistroPesaje = () => {
       if (data.id_pesaje) {
         await registroPesajeService.update(data.id_pesaje, data);
       } else {
-        await registroPesajeService.create(data);
+        const { id_ganado, ...body } = data;
+        await registroPesajeService.create(id_ganado, body);
       }
       await fetchRegistros();
       setShowModal(false);

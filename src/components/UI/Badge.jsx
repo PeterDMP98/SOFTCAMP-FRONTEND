@@ -5,12 +5,12 @@ const Badge = ({
   className = "",
 }) => {
   const variants = {
-    default: "bg-gray-100 text-gray-700",
-    success: "bg-green-100 text-green-700",
-    warning: "bg-yellow-100 text-yellow-700",
-    danger: "bg-red-100 text-red-700",
-    info: "bg-blue-100 text-blue-700",
-    purple: "bg-purple-100 text-purple-700",
+    default: "bg-white/10 text-slate-300",
+    success: "bg-emerald-500/15 text-emerald-200",
+    warning: "bg-yellow-500/15 text-yellow-200",
+    danger: "bg-red-500/15 text-red-200",
+    info: "bg-blue-500/15 text-blue-200",
+    purple: "bg-purple-500/15 text-purple-200",
   };
 
   const sizes = {

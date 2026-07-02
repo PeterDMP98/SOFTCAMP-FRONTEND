@@ -26,7 +26,12 @@ const TareaForm = ({ initialData, onSubmit, onClose, empleados = [] }) => {
   }, [initialData]);
 
   const handleChange = (e) => setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  const handleSubmit = (e) => { e.preventDefault(); onSubmit({ ...formData, id_tarea: initialData?.id_tarea }); };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const clean = Object.fromEntries(Object.entries(formData).filter(([_, v]) => v !== ""));
+    const { descripcion, id_empleado, ...rest } = clean;
+    onSubmit({ ...rest, id_tarea: initialData?.id_tarea, detalle: descripcion });
+  };
 
   const prioridadOptions = [
     { value: "baja", label: "Baja" },
@@ -41,8 +46,8 @@ const TareaForm = ({ initialData, onSubmit, onClose, empleados = [] }) => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input label="Título" name="titulo" value={formData.titulo} onChange={handleChange} required />
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-gray-700">Descripción</label>
-          <textarea name="descripcion" value={formData.descripcion} onChange={handleChange} rows={3} className="p-2 border rounded-lg outline-none focus:ring-2 focus:ring-green-200" />
+          <label className="text-sm font-medium text-white">Descripción</label>
+          <textarea name="descripcion" value={formData.descripcion} onChange={handleChange} rows={3} className="rounded-2xl border border-white/10 bg-[#0d0f15] px-4 py-3 text-sm text-white outline-none ring-0 placeholder:text-slate-500 focus:border-emerald-400/60 resize-none" />
         </div>
         <Select label="Asignar a" name="id_empleado" value={formData.id_empleado} onChange={handleChange} options={empOptions} placeholder="Sin asignar" />
         <div className="grid grid-cols-2 gap-4">

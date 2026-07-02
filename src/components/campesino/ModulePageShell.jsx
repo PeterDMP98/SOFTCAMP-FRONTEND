@@ -52,7 +52,7 @@ const ModulePageShell = ({
       </div>
 
       {stats.length > 0 && (
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {stats.map((stat) => (
             <div
               key={stat.label}
@@ -72,6 +72,7 @@ const ModulePageShell = ({
                 )}
               </div>
               {stat.hint && <p className="mt-3 text-sm text-slate-400">{stat.hint}</p>}
+              {stat.children}
             </div>
           ))}
         </div>

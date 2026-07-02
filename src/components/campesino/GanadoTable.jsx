@@ -1,5 +1,5 @@
 // src/components/GanadoTable.jsx
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, Eye } from "lucide-react";
 import { Plus } from "lucide-react";
 import EstadoSaludBadge from "../common/EstadoSaludBadge";
 
@@ -8,6 +8,7 @@ const GanadoTable = ({
   ganadoList = [],
   onEdit,
   onDelete,
+  onView,
   onSort,
   sortField,
   sortDirection,
@@ -16,7 +17,7 @@ const GanadoTable = ({
 
   if (!ganadoList.length) {
     return (
-      <div className="bg-white shadow-md rounded-2xl p-6 text-center text-gray-600">
+      <div className="border border-white/10 bg-[#111019] text-white shadow-[0_28px_90px_rgba(0,0,0,0.45)] rounded-2xl p-6 text-center">
         {/* Botón agregar flotante */}
         <div className="flex justify-end mb-2">
           <button
@@ -32,7 +33,7 @@ const GanadoTable = ({
   }
 
   return (
-    <div className="bg-white shadow-md rounded-2xl px-6 py-3 relative">
+    <div className="border border-white/10 bg-[#111019] text-white shadow-[0_28px_90px_rgba(0,0,0,0.45)] rounded-2xl px-6 py-3 relative">
 
       {/* Botón agregar flotante */}
       <div className="flex justify-end mb-2">
@@ -47,7 +48,7 @@ const GanadoTable = ({
       {/* TABLA — solo visible en pantallas md o superiores */}
       <table className="hidden md:table w-full text-left border-collapse">
         <thead>
-          <tr className="bg-gray-100 text-gray-700">
+          <tr className="border border-white/10 bg-[#111019] text-white shadow-[0_28px_90px_rgba(0,0,0,0.45)]">
             {[
               { field: "nombre_animal", label: "Nombre" },
               { field: "numero_identificacion", label: "Identificación" },
@@ -71,7 +72,8 @@ const GanadoTable = ({
 
         <tbody>
           {ganadoList.map((g) => (
-            <tr key={g.id_ganado} className="border-b hover:bg-gray-50">
+            //console.log("Rendering ganado:", g),
+            <tr key={g.id_ganado} className="border-b border-slate-400 hover:bg-slate-400/10 transition-colors">
               <td className="p-2">{g.nombre_animal}</td>
               <td className="p-2">{g.numero_identificacion}</td>
               <td className="p-2">{g.sexo}</td>
@@ -80,6 +82,10 @@ const GanadoTable = ({
               <td className="p-2"><EstadoSaludBadge estado={g.estado_salud} /></td>
 
               <td className="p-2 flex gap-3">
+                <Eye
+                  className="text-blue-400 cursor-pointer hover:scale-110 transition-transform duration-150"
+                  onClick={() => onView?.(g)}
+                />
                 <Pencil
                   className="text-yellow-600 cursor-pointer hover:scale-110 transition-transform duration-150"
                   onClick={() => onEdit(g)}
@@ -109,6 +115,10 @@ const GanadoTable = ({
             <p><strong>Salud:</strong> {g.estado_salud}</p>
 
             <div className="flex justify-end gap-4 mt-3">
+              <Eye
+                className="text-blue-400 cursor-pointer hover:scale-110"
+                onClick={() => onView?.(g)}
+              />
               <Pencil
                 className="text-yellow-600 cursor-pointer hover:scale-110"
                 onClick={() => onEdit(g)}

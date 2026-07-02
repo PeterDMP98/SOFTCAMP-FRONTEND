@@ -7,12 +7,12 @@ const Card = ({
   padding = true,
 }) => {
   return (
-    <div className={`bg-white rounded-2xl shadow-md ${className}`}>
+    <div className={`rounded-2xl border border-white/10 bg-[#191622] shadow-[0_18px_50px_rgba(0,0,0,0.22)] ${className}`}>
       {(title || headerAction) && (
-        <div className="flex items-center justify-between p-4 border-b border-gray-100">
+        <div className="flex items-center justify-between p-4 border-b border-white/10">
           <div>
-            {title && <h3 className="text-lg font-semibold text-gray-800">{title}</h3>}
-            {subtitle && <p className="text-sm text-gray-500 mt-0.5">{subtitle}</p>}
+            {title && <h3 className="text-lg font-semibold text-white">{title}</h3>}
+            {subtitle && <p className="text-sm text-slate-400 mt-0.5">{subtitle}</p>}
           </div>
           {headerAction && <div>{headerAction}</div>}
         </div>
@@ -32,13 +32,13 @@ export const CardStats = ({ icon: Icon, label, value, trend, color = "green" }) 
   };
 
   return (
-    <div className="bg-white rounded-2xl p-4 shadow-md flex items-center gap-4">
+    <div className="rounded-2xl border border-white/10 bg-[#191622] p-4 shadow-[0_18px_50px_rgba(0,0,0,0.22)] flex items-center gap-4">
       <div className={`p-3 rounded-xl ${colors[color]}`}>
         <Icon size={24} />
       </div>
       <div>
-        <p className="text-sm text-gray-500">{label}</p>
-        <p className="text-2xl font-bold text-gray-800">{value}</p>
+        <p className="text-sm text-slate-400">{label}</p>
+        <p className="text-2xl font-bold text-white">{value}</p>
         {trend && <p className={`text-xs ${trend > 0 ? "text-green-500" : "text-red-500"}`}>
           {trend > 0 ? "+" : ""}{trend}% vs mes anterior
         </p>}

@@ -14,9 +14,9 @@ const Select = ({
   return (
     <div className={`flex flex-col gap-1 ${className}`}>
       {label && (
-        <label className="text-sm font-medium text-gray-700">
+        <label className="text-sm font-medium text-white">
           {label}
-          {required && <span className="text-red-500 ml-1">*</span>}
+          {required && <span className="text-red-400 ml-1">*</span>}
         </label>
       )}
       <select
@@ -24,13 +24,13 @@ const Select = ({
         value={value}
         onChange={onChange}
         disabled={disabled}
-        className={`p-2 border rounded-lg transition-colors duration-200
+        className={`rounded-2xl border border-white/10 px-4 py-3 text-sm outline-none transition-colors duration-200
           ${error
             ? "border-red-500 focus:ring-2 focus:ring-red-200"
-            : "border-gray-300 focus:ring-2 focus:ring-green-200 focus:border-green-500"
+            : ""
           }
-          ${disabled ? "bg-gray-100 cursor-not-allowed" : "bg-white"}
-          outline-none`}
+          ${disabled ? "bg-white/5 cursor-not-allowed" : "bg-[#0d0f15]"}
+          text-white ring-0`}
         {...props}
       >
         <option value="">{placeholder}</option>

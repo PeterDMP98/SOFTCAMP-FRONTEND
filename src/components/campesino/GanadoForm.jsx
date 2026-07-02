@@ -69,6 +69,13 @@ const GanadoForm = ({ initialData, onSubmit, onClose }) => {
 
     const payload = { ...form };
 
+    // Limpiar strings vacíos para que la validación Zod no falle
+    for (const key of Object.keys(payload)) {
+      if (payload[key] === "") {
+        delete payload[key];
+      }
+    }
+
     // Limpieza final antes de enviar
     if (payload.sexo === "Macho") {
       delete payload.estado_reproductivo;
@@ -84,16 +91,16 @@ const GanadoForm = ({ initialData, onSubmit, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
-      <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 relative">
+      <div className="bg-[#111019] w-full max-w-lg rounded-2xl shadow-2xl p-6 relative border border-white/10">
 
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 text-gray-600 hover:text-black"
+          className="absolute top-3 right-3 text-slate-400 hover:text-white transition"
         >
           <X size={22} />
         </button>
 
-        <h2 className="text-xl font-semibold text-green-700 mb-4">
+        <h2 className="text-xl font-semibold text-emerald-400 mb-4">
           {initialData ? "Editar Ganado" : "Agregar Ganado"}
         </h2>
 
@@ -104,7 +111,7 @@ const GanadoForm = ({ initialData, onSubmit, onClose }) => {
             placeholder="Nombre del animal"
             value={form.nombre_animal}
             onChange={handleChange}
-            className="p-2 border rounded-md"
+            className="rounded-2xl border border-white/10 bg-[#0d0f15] px-4 py-3 text-sm text-white outline-none ring-0 placeholder:text-slate-500 focus:border-emerald-400/60"
             required
           />
 
@@ -113,14 +120,14 @@ const GanadoForm = ({ initialData, onSubmit, onClose }) => {
             placeholder="Identificación"
             value={form.numero_identificacion}
             onChange={handleChange}
-            className="p-2 border rounded-md"
+            className="rounded-2xl border border-white/10 bg-[#0d0f15] px-4 py-3 text-sm text-white outline-none ring-0 placeholder:text-slate-500 focus:border-emerald-400/60"
           />
 
           <select
             name="sexo"
             value={form.sexo}
             onChange={handleChange}
-            className="p-2 border rounded-md"
+            className="rounded-2xl border border-white/10 bg-[#0d0f15] px-4 py-3 text-sm text-white outline-none"
             required
           >
             <option value="">Sexo</option>
@@ -133,7 +140,7 @@ const GanadoForm = ({ initialData, onSubmit, onClose }) => {
             placeholder="Raza"
             value={form.raza}
             onChange={handleChange}
-            className="p-2 border rounded-md"
+            className="rounded-2xl border border-white/10 bg-[#0d0f15] px-4 py-3 text-sm text-white outline-none ring-0 placeholder:text-slate-500 focus:border-emerald-400/60"
           />
 
           <input
@@ -142,7 +149,7 @@ const GanadoForm = ({ initialData, onSubmit, onClose }) => {
             placeholder="Peso (kg)"
             value={form.peso_actual}
             onChange={handleChange}
-            className="p-2 border rounded-md"
+            className="rounded-2xl border border-white/10 bg-[#0d0f15] px-4 py-3 text-sm text-white outline-none ring-0 placeholder:text-slate-500 focus:border-emerald-400/60"
             required
           />
 
@@ -151,7 +158,7 @@ const GanadoForm = ({ initialData, onSubmit, onClose }) => {
             name="estado_salud"
             value={form.estado_salud}
             onChange={handleChange}
-            className="p-2 border rounded-md"
+            className="rounded-2xl border border-white/10 bg-[#0d0f15] px-4 py-3 text-sm text-white outline-none"
           >
             {Object.entries(ESTADO_SALUD).map(([key, value]) => (
               <option key={key} value={key}>
@@ -166,7 +173,7 @@ const GanadoForm = ({ initialData, onSubmit, onClose }) => {
               name="estado_reproductivo"
               value={form.estado_reproductivo}
               onChange={handleChange}
-              className="p-2 border rounded-md"
+              className="rounded-2xl border border-white/10 bg-[#0d0f15] px-4 py-3 text-sm text-white outline-none"
             >
               <option value="">Estado reproductivo</option>
               <option value="Gestante">Gestante</option>
@@ -178,13 +185,13 @@ const GanadoForm = ({ initialData, onSubmit, onClose }) => {
           {/* Fecha de gestación solo si está gestante */}
           {form.estado_reproductivo === "Gestante" && (
             <div className="flex flex-col">
-              <label className="text-sm text-gray-600">Primer dia de gestacion</label>
+              <label className="text-sm text-slate-300">Primer dia de gestacion</label>
               <input
                 type="date"
                 name="fecha_gestacion"
                 value={form.fecha_gestacion}
                 onChange={handleChange}
-                className="p-2 border rounded-md"
+                className="rounded-2xl border border-white/10 bg-[#0d0f15] px-4 py-3 text-sm text-white outline-none focus:border-emerald-400/60"
               />
             </div>
           )}
@@ -194,13 +201,13 @@ const GanadoForm = ({ initialData, onSubmit, onClose }) => {
             placeholder="Observaciones"
             value={form.detalle}
             onChange={handleChange}
-            className="p-2 border rounded-md resize-none"
+            className="rounded-2xl border border-white/10 bg-[#0d0f15] px-4 py-3 text-sm text-white outline-none ring-0 placeholder:text-slate-500 focus:border-emerald-400/60 resize-none"
             rows={3}
           />
 
           <button
             type="submit"
-            className="mt-2 bg-green-600 hover:bg-green-700 text-white py-2 rounded-xl transition"
+            className="mt-2 rounded-2xl border border-white/10 bg-emerald-500/20 px-4 py-3 text-sm font-semibold text-white transition hover:bg-emerald-500/30"
           >
             Guardar
           </button>

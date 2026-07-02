@@ -5,6 +5,7 @@ const ENDPOINT = "/ganado";
 export const ganadoService = {
   getAll: async () => {
     const res = await httpClient.get(ENDPOINT);
+    console.log("ganadoService.getAll response:", res.data);
     return res.data?.data || [];
   },
 

@@ -8,8 +8,7 @@ const RegistroReproduccionTable = ({ registros, onEdit, onDelete, onAdd }) => {
     { key: "padre_nombre", label: "Padre", render: (val) => val || "-" },
     { key: "tipo", label: "Tipo", render: (val) => <Badge variant="info">{val}</Badge> },
     { key: "fecha", label: "Fecha", render: (val) => val?.split("T")[0] || "-" },
-    { key: "resultado", label: "Resultado", render: (val) => <Badge variant={val === "exitoso" ? "success" : val === "fallido" ? "danger" : "warning"}>{val}</Badge> },
-    { key: "numero_crías", label: "Crías" },
+    { key: "resultado", label: "Resultado", render: (val) => <Badge variant={val?.includes("EXITOSO") ? "success" : val?.includes("FALLIDO") ? "danger" : "warning"}>{val || "-"}</Badge> },
     { key: "acciones", label: "Acciones", render: (_, row) => (<div className="flex gap-2"><button onClick={() => onEdit(row)} className="p-1.5 text-green-600 hover:bg-green-50 rounded"><Pencil size={16} /></button><button onClick={() => onDelete(row.id_reproduccion)} className="p-1.5 text-red-600 hover:bg-red-50 rounded"><Trash2 size={16} /></button></div>) },
   ];
 

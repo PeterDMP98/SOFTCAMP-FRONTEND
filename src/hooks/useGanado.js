@@ -157,6 +157,7 @@ export const useGanado = () => {
   // =========================
   const filteredList = useMemo(() => {
     let list = ganadoList.filter((g) => {
+      
       const q = search.toLowerCase();
 
       if (q) {
@@ -164,7 +165,6 @@ export const useGanado = () => {
           g.nombre_animal?.toLowerCase().includes(q) ||
           g.numero_identificacion?.toLowerCase().includes(q) ||
           g.raza?.toLowerCase().includes(q);
-
         if (!match) return false;
       }
 

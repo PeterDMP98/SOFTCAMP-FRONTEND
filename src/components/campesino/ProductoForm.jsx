@@ -10,16 +10,14 @@ const ProductoForm = ({ initialData, onSubmit, onClose, categorias = [] }) => {
     descripcion: "",
     categoria: "",
     unidad_medida: "kg",
-    precio_unitario: "",
   });
 
   useEffect(() => {
     if (initialData) setFormData({
       nombre: initialData.nombre || "",
-      descripcion: initialData.descripcion || "",
-      categoria: initialData.categoria || "",
-      unidad_medida: initialData.unidad_medida || "kg",
-      precio_unitario: initialData.precio_unitario || "",
+      descripcion: initialData.descripcion || initialData.descriptcion || "",
+      categoria: initialData.categoria || initialData.id_categoria || "",
+      unidad_medida: initialData.unidad_medida || initialData.unidad_de_medida || "kg",
     });
   }, [initialData]);
 
@@ -27,7 +25,16 @@ const ProductoForm = ({ initialData, onSubmit, onClose, categorias = [] }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ ...formData, id_producto: initialData?.id_producto, precio_unitario: parseFloat(formData.precio_unitario) || 0 });
+    const clean = Object.fromEntries(Object.entries(formData).filter(([_, v]) => v !== ""));
+    const { descripcion, categoria, unidad_medida, ...rest } = clean;
+    onSubmit({
+      ...rest,
+      id_producto: initialData?.id_producto,
+      descriptcion: descripcion,
+      id_categoria: parseInt(categoria) || 1,
+      unidad_de_medida: unidad_medida,
+      cantidad_total: 0,
+    });
   };
 
   const catOptions = categorias.length > 0 
@@ -54,12 +61,11 @@ const ProductoForm = ({ initialData, onSubmit, onClose, categorias = [] }) => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input label="Nombre" name="nombre" value={formData.nombre} onChange={handleChange} placeholder="Ej: Yuca" required />
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-gray-700">Descripción</label>
-          <textarea name="descripcion" value={formData.descripcion} onChange={handleChange} rows={2} className="p-2 border rounded-lg outline-none focus:ring-2 focus:ring-green-200" />
+          <label className="text-sm font-medium text-white">Descripción</label>
+          <textarea name="descripcion" value={formData.descripcion} onChange={handleChange} rows={2} className="rounded-2xl border border-white/10 bg-[#0d0f15] px-4 py-3 text-sm text-white outline-none ring-0 placeholder:text-slate-500 focus:border-emerald-400/60 resize-none" />
         </div>
         <Select label="Categoría" name="categoria" value={formData.categoria} onChange={handleChange} options={catOptions} required />
         <Select label="Unidad de Medida" name="unidad_medida" value={formData.unidad_medida} onChange={handleChange} options={unidadOptions} />
-        <Input label="Precio Unitario" name="precio_unitario" type="number" step="0.01" value={formData.precio_unitario} onChange={handleChange} placeholder="0.00" required />
         <ModalFooter>
           <Button variant="secondary" onClick={onClose}>Cancelar</Button>
           <Button type="submit">{initialData ? "Actualizar" : "Crear"}</Button>

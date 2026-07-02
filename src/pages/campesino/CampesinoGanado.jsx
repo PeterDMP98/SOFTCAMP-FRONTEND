@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom";
-import { Beef, HeartPulse, Baby, Scale, PlusCircle, Filter } from "lucide-react";
+import { useState } from "react";
+import { Beef, Baby, PlusCircle, Filter, Activity } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { useGanado } from "../../hooks/useGanado";
 import { useHistorialClinico } from "../../hooks/useHistorialClinico";
@@ -9,6 +10,7 @@ import ModulePageShell from "../../components/campesino/ModulePageShell";
 import ExpandableSection from "../../components/campesino/ExpandableSection";
 import GanadoForm from "../../components/campesino/GanadoForm";
 import GanadoTable from "../../components/campesino/GanadoTable";
+import GanadoDetailModal from "../../components/campesino/GanadoDetailModal";
 import HistorialClinicoForm from "../../components/campesino/HistorialClinicoForm";
 import HistorialClinicoTable from "../../components/campesino/HistorialClinicoTable";
 import RegistroPesajeForm from "../../components/campesino/RegistroPesajeForm";
@@ -65,6 +67,10 @@ const CampesinoGanado = () => {
 
   const healthyCount = allGanadoList.filter((item) => String(item.estado_salud || "").toUpperCase() === "SANO").length;
 
+  const enTratamientoCount = allGanadoList.filter((item) => String(item.estado_salud || "").toUpperCase() === "EN_TRATAMIENTO").length;
+
+  const embarazadasCount = reproduccion.registros.filter((r) => String(r.estado || "").toUpperCase() === "GESTANDO" || String(r.tipo || "").toUpperCase() === "INSEMINACION" || String(r.tipo || "").toUpperCase() === "MONTA").length;
+
   const stats = [
     {
       label: "Ganado total",
@@ -73,24 +79,28 @@ const CampesinoGanado = () => {
       icon: <Beef size={18} />,
     },
     {
-      label: "Saludable",
-      value: healthyCount,
-      hint: "Animales en estado sano",
-      icon: <HeartPulse size={18} />,
+      label: "Animales en tratamiento",
+      value: enTratamientoCount,
+      hint: "Animales con estado en tratamiento",
+      icon: <Activity size={18} />,
     },
     {
-      label: "Vacunas y clinica",
-      value: historial.registros.length,
-      hint: "Registros medicos consolidados",
+      label: "Animales embarazadas",
+      value: embarazadasCount,
+      hint: "Hembras en gestación o inseminadas",
       icon: <Baby size={18} />,
     },
-    {
-      label: "Pesajes / repro",
-      value: `${pesaje.registros.length} / ${reproduccion.registros.length}`,
-      hint: "Seguimiento de peso y reproduccion",
-      icon: <Scale size={18} />,
-    },
   ];
+
+  const [detailAnimal, setDetailAnimal] = useState(null);
+
+  const handleViewAnimal = (animal) => {
+    setDetailAnimal(animal);
+  };
+
+  const closeDetailModal = () => {
+    setDetailAnimal(null);
+  };
 
   return (
     <ModulePageShell
@@ -119,7 +129,7 @@ const CampesinoGanado = () => {
         />
       )}
 
-      <div className="grid gap-4 xl:grid-cols-[1.5fr_0.9fr]">
+      <div className="flex flex-col gap-4">
         <ExpandableSection
           title="Registro de ganado"
           subtitle="Listado principal con filtros, orden y paginacion."
@@ -217,6 +227,7 @@ const CampesinoGanado = () => {
                 setShowModal(true);
               }}
               onDelete={borrarGanado}
+              onView={handleViewAnimal}
               onSort={ordenarPor}
               sortField={sortField}
               sortDirection={sortDirection}
@@ -277,73 +288,6 @@ const CampesinoGanado = () => {
           </div>
         </ExpandableSection>
 
-        <div className="space-y-4">
-          <ExpandableSection
-            title="Vacunas y salud"
-            subtitle="Aun dentro del mismo animal, el historial clinico queda agrupado con sus vacunas y tratamientos."
-            badge="Clinica"
-            action={
-              <button type="button" className={actionButtonClass} onClick={() => historial.setShowModal(true)}>
-                <PlusCircle size={16} />
-                Nuevo registro
-              </button>
-            }
-          >
-            <HistorialClinicoTable
-              registros={historial.registros}
-              onEdit={(row) => {
-                historial.setEditData(row);
-                historial.setShowModal(true);
-              }}
-              onDelete={() => {}}
-              onAdd={() => historial.setShowModal(true)}
-            />
-          </ExpandableSection>
-
-          <ExpandableSection
-            title="Pesaje"
-            subtitle="Seguimiento de peso para saber como evoluciona el animal."
-            badge="Peso"
-            action={
-              <button type="button" className={actionButtonClass} onClick={() => pesaje.setShowModal(true)}>
-                <PlusCircle size={16} />
-                Nuevo pesaje
-              </button>
-            }
-          >
-            <RegistroPesajeTable
-              registros={pesaje.registros}
-              onEdit={(row) => {
-                pesaje.setEditData(row);
-                pesaje.setShowModal(true);
-              }}
-              onDelete={() => {}}
-              onAdd={() => pesaje.setShowModal(true)}
-            />
-          </ExpandableSection>
-
-          <ExpandableSection
-            title="Reproduccion"
-            subtitle="Nacimientos, gestacion y genealogia dentro de la misma ficha."
-            badge="Genetica"
-            action={
-              <button type="button" className={actionButtonClass} onClick={() => reproduccion.setShowModal(true)}>
-                <PlusCircle size={16} />
-                Nuevo registro
-              </button>
-            }
-          >
-            <RegistroReproduccionTable
-              registros={reproduccion.registros}
-              onEdit={(row) => {
-                reproduccion.setEditData(row);
-                reproduccion.setShowModal(true);
-              }}
-              onDelete={() => {}}
-              onAdd={() => reproduccion.setShowModal(true)}
-            />
-          </ExpandableSection>
-        </div>
       </div>
 
       {historial.showModal && (
@@ -379,6 +323,17 @@ const CampesinoGanado = () => {
             reproduccion.setEditData(null);
           }}
           animales={allGanadoList}
+        />
+      )}
+
+      {detailAnimal && (
+        <GanadoDetailModal
+          animal={detailAnimal}
+          historialClinico={historial.registros}
+          registrosPesaje={pesaje.registros}
+          registrosReproduccion={reproduccion.registros}
+          allGanado={allGanadoList}
+          onClose={closeDetailModal}
         />
       )}
 

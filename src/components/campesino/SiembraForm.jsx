@@ -11,20 +11,16 @@ const SiembraForm = ({ initialData, onSubmit, onClose, lotes = [] }) => {
     fecha_siembra: "",
     fecha_cosecha_estimada: "",
     area_sembrada: "",
-    rendimiento_esperado: "",
-    observaciones: "",
   });
 
   useEffect(() => {
     if (initialData) {
       setFormData({
         id_lote: initialData.id_lote || "",
-        tipo_cultivo: initialData.tipo_cultivo || "",
-        fecha_siembra: initialData.fecha_siembra?.split("T")[0] || "",
-        fecha_cosecha_estimada: initialData.fecha_cosecha_estimada?.split("T")[0] || "",
-        area_sembrada: initialData.area_sembrada || "",
-        rendimiento_esperado: initialData.rendimiento_esperado || "",
-        observaciones: initialData.observaciones || "",
+        tipo_cultivo: initialData.tipo_cultivo || initialData.nombre || "",
+        fecha_siembra: initialData.fecha_siembra?.split("T")[0] || initialData.fecha_de_siembra?.split("T")[0] || "",
+        fecha_cosecha_estimada: initialData.fecha_cosecha_estimada?.split("T")[0] || initialData.fecha_de_cosecha?.split("T")[0] || "",
+        area_sembrada: initialData.area_sembrada || initialData.cantidad || "",
       });
     }
   }, [initialData]);
@@ -36,11 +32,16 @@ const SiembraForm = ({ initialData, onSubmit, onClose, lotes = [] }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const clean = Object.fromEntries(Object.entries(formData).filter(([_, v]) => v !== ""));
+    const { tipo_cultivo, fecha_siembra, fecha_cosecha_estimada, area_sembrada, ...rest } = clean;
     onSubmit({
-      ...formData,
+      ...rest,
       id_siembra: initialData?.id_siembra,
-      area_sembrada: parseFloat(formData.area_sembrada) || 0,
-      rendimiento_esperado: parseFloat(formData.rendimiento_esperado) || 0,
+      nombre: tipo_cultivo,
+      fecha_de_siembra: fecha_siembra,
+      fecha_de_cosecha: fecha_cosecha_estimada,
+      cantidad: parseFloat(area_sembrada) || 0,
+      estado: "Abierta",
     });
   };
 
@@ -84,35 +85,14 @@ const SiembraForm = ({ initialData, onSubmit, onClose, lotes = [] }) => {
           onChange={handleChange}
         />
 
-        <div className="grid grid-cols-2 gap-4">
-          <Input
-            label="Área Sembrada (ha)"
-            name="area_sembrada"
-            type="number"
-            step="0.01"
-            value={formData.area_sembrada}
-            onChange={handleChange}
-          />
-
-          <Input
-            label="Rendimiento Esperado (kg/ha)"
-            name="rendimiento_esperado"
-            type="number"
-            value={formData.rendimiento_esperado}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-gray-700">Observaciones</label>
-          <textarea
-            name="observaciones"
-            value={formData.observaciones}
-            onChange={handleChange}
-            rows={3}
-            className="p-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-green-200"
-          />
-        </div>
+        <Input
+          label="Área Sembrada (ha)"
+          name="area_sembrada"
+          type="number"
+          step="0.01"
+          value={formData.area_sembrada}
+          onChange={handleChange}
+        />
 
         <ModalFooter>
           <Button variant="secondary" onClick={onClose}>Cancelar</Button>
